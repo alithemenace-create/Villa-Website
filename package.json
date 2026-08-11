@@ -1,0 +1,20 @@
+{
+  "name": "villa-escapes-api",
+  "version": "1.0.0",
+  "description": "VillaEscapes REST API — Express backend for Render",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "uuid": "^11.0.0"
+  }
+}
