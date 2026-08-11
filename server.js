@@ -36,10 +36,21 @@ const HTML_PATH = path.join(__dirname, 'villa-villascapes.html');
 
 // ── MIDDLEWARE ────────────────────────────────────────────────────────────────
 app.use(cors({
-  origin: ALLOWED_ORIGINS.includes('*') ? '*' : ALLOWED_ORIGINS,
+  origin: (origin, callback) => {
+    // Allow requests with no origin (e.g. curl, Render health checks)
+    if (!origin) return callback(null, true);
+    if (ALLOWED_ORIGINS.includes('*') || ALLOWED_ORIGINS.includes(origin)) {
+      return callback(null, true);
+    }
+    callback(new Error(`CORS: origin ${origin} not allowed`));
+  },
   methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'X-Admin-Secret'],
+  credentials: false,
 }));
+
+// Explicitly handle preflight for all routes
+app.options('*', cors());
 app.use(express.json({ limit: '1mb' }));
 
 app.use((req, _res, next) => {
